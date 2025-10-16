@@ -120,4 +120,70 @@ public class Entrada {
         }
     }
 
+    public void cadVendedor (Sistema s) {
+        s.listarVendedores();
+
+        String nome = this.lerLinha("Digite o nome do vendedor: ");
+        String cpf = this.lerLinha("Digite o cpf do vendedor: ");
+        int dia = this.lerInteiro("Digite o dia do nascimento do vendedor: ");
+        int mes = this.lerInteiro("Digite o mês do nascimento do vendedor: ");
+        int ano = this.lerInteiro("Digite o ano do nascimento do vendedor: ");
+        int salario = this.lerInteiro("Digite o salário mensal fixo do vendedor: ");
+        double comissao = this.lerInteiro("Digite o percentual de comissão deste vendedor: ");
+
+
+        if (s.localizarVendedor(cpf) == null) { // Garantindo que o não CPF esteja duplicado.
+            Vendedor c = new Vendedor(nome, cpf, dia, mes, ano, salario, comissao); // CHECAAAARRRR
+            s.adicionar(c); // CHECARRRRR
+        }
+        else {
+            System.out.println("Erro: CPF duplicado. Vendedor não adicionado.");
+        }
+    }
+    
+    public void cadGerente (Sistema s) {
+        s.listarGerentes();
+
+        String nome = this.lerLinha("Digite o nome do gerente: ");
+        String cpf = this.lerLinha("Digite o cpf do gerente: ");
+        int dia = this.lerInteiro("Digite o dia do nascimento do gerente: ");
+        int mes = this.lerInteiro("Digite o mês do nascimento do gerente: ");
+        int ano = this.lerInteiro("Digite o ano do nascimento do gerente: ");
+        int salario = this.lerInteiro("Digite o salário mensal fixo do gerente: ");
+        int senha = this.lerInteiro("Digite a senha do gerente: ");
+
+        if (s.localizarGerente(cpf) == null) { // Garantindo que o não CPF esteja duplicado.
+            Gerente c = new Gerente(nome, cpf, dia, mes, ano, salario, senha); // CHECAAAARRRR
+            s.adicionar(c); // CHECARRRRR
+        }
+        else {
+            System.out.println("Erro: CPF duplicado. Vendedor não adicionado.");
+        }
+    }
+
+    public void cadGerente (Sistema s) {
+        s.listarVeiculos();
+
+        String marca = this.lerLinha("Digite a marca do veículo: ");
+        String modelo = this.lerLinha("Digite o modelo do veículo: ");
+        int anoFab = this.lerLinha("Digite o ano de fabricação do veículo: ");
+        int mesFab = this.lerLinha("Digite o mês de fabricação do veículo: ");
+        int anoMod = this.lerInteiro("Digite o ano do modelo do veículo: ");
+        int valor = this.lerInteiro("Digite o valor do veículo: ")
+        int tipo = this.lerInteiro("Escolha o tipo do veículo: \n1) Elétrico \n2) Combustão \n3) Híbrido:");
+        int autonMotor = this.lerInteiro("Digite a autonomia do motor (em km): ");
+        int capMotor = this.lerInteiro("Digite a capacidade do motor (em L): ");
+        int autonBateria = this.lerInteiro("Digite a autonomia da bateria (em km): ");
+        int capBateria = this.lerInteiro("Digite a capacidade da Bateria (em kwH): ");
+
+        if (s.localizarGerente(cpf) == null) { // Garantindo que o não CPF esteja duplicado.
+            Veiculo c = new Veiculo(marca, modelo, anoFab, mesFab, anoMod, valor, tipo, autonMotor, capMotor, autonBateria, capBateria);
+            s.adicionar(c); // CHECARRRRR
+        }
+        else {
+            System.out.println("Erro: CPF duplicado. Vendedor não adicionado.");
+        }
+    }
+
+
 }
