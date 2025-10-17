@@ -2,17 +2,17 @@ public class Eletrico extends Veiculo {
     private double autonomiaBat;
     private double capacidadeBat;
 
-    public Combustao(String marca, String modelo, int anoFab, int mesFab, int anoMod, double valor, double autonBat, double capBat) {
+    public Eletrico(String marca, String modelo, int anoFab, int mesFab, int anoMod, double valor, double autonBat, double capBat) {
         super(marca, modelo, anoFab, mesFab, anoMod, valor);
         this.autonomiaBat = autonBat;
         this.capacidadeBat = capBat;
     }
 
     public int getAutonomia() {
-        return autonomiaBat;
+        return (int) autonomiaBat;
     }
 
     public String toString() {
-        // sabe-se lá o quê
+        return super.marca + super.modelo + super.anoMod + "/" + super.anoFab + " - Autonomia: " + this.autonomiaBat + ".0km (Elétrico)";
     }
 }

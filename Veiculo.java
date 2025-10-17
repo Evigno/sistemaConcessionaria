@@ -20,6 +20,6 @@ public class Veiculo {
     }
 
     public String toString() {
-        
+        return this.marca + this.modelo + this.anoMod + "/" + this.anoFab + " - Autonomia: " + this.getAutonomia() + ".0km";
     }
 }

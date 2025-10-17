@@ -11,9 +11,22 @@ public class Main {
             switch(op) {
                 case 1:
                     io.cadCliente(s); break;
-                //case 2:
-                    //io.cadVendedor(s); break;
-                //case 3: ...
+                case 2:
+                    io.cadVendedor(s); break;
+                case 3:
+                    io.cadProduto(s); break;
+                case 4:
+                    io.cadVenda(s); break;
+                case 5:
+                    io.relatorioVendas(s); break;
+                case 6:
+                    io.relatorioClientes(s); break;
+                case 7:
+                    io.relatorioVendedores(s); break;
+                case 8:
+                    io.relatorioProdutos(s); break;
+                default:
+                    io.opInvalida(); break;
             }
 
             op = io.menu();

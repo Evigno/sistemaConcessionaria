@@ -13,6 +13,14 @@ public class Venda {
         this.chassi = chassi;
     }
 
+    public Venda() {
+        this.veiculo = null;
+        this.cliente = null;
+        this.desconto = 0.0;
+        this.d = new Data(1, 1, 2000);
+        this.chassi = "";
+    }
+
     public double valor() {
         return this.veiculo.valor - this.desconto;
     }
@@ -22,8 +30,15 @@ public class Venda {
             this.desconto = desconto;
         }
     }
+    
+    public double getDesconto() {
+        return this.desconto;
+    }
 
-    public void toString() {
-        // ihul, vai dar 23h, boa noite
+    public String toString() {
+        return "Veiculo: " + this.veiculo.toString() + "\n" +
+               "Cliente: " + this.cliente.toString() + "\n" +
+               "Valor da venda: R$" + this.valor() + "\n" +
+               "Data: " + this.d.toString();
     }
 }

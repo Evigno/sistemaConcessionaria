@@ -161,7 +161,7 @@ public class Entrada {
         }
     }
 
-    public void cadGerente (Sistema s) {
+    public void cadVeiculo (Sistema s) {
         s.listarVeiculos();
 
         String marca = this.lerLinha("Digite a marca do veículo: ");
@@ -171,10 +171,27 @@ public class Entrada {
         int anoMod = this.lerInteiro("Digite o ano do modelo do veículo: ");
         int valor = this.lerInteiro("Digite o valor do veículo: ")
         int tipo = this.lerInteiro("Escolha o tipo do veículo: \n1) Elétrico \n2) Combustão \n3) Híbrido:");
-        int autonMotor = this.lerInteiro("Digite a autonomia do motor (em km): ");
-        int capMotor = this.lerInteiro("Digite a capacidade do motor (em L): ");
-        int autonBateria = this.lerInteiro("Digite a autonomia da bateria (em km): ");
-        int capBateria = this.lerInteiro("Digite a capacidade da Bateria (em kwH): ");
+        while (!(tipo == 0 || tipo == 1 || tipo == 2 || tipo == 3)) {
+            System.out.println("Erro: Tipo inválido. Tente novamente (para sair, digite 0).");
+            tipo = this.lerInteiro("Escolha o tipo do veículo: \n1) Elétrico \n2) Combustão \n3) Híbrido:");
+        }
+        if (tipo == 0) {
+            menu();
+        }
+        if (tipo == 1) {
+            int autonBateria = this.lerInteiro("Digite a autonomia da bateria (em km): ");
+            int capBateria = this.lerInteiro("Digite a capacidade da Bateria (em kwH): ");  
+        }
+        if (tipo == 2) {
+            int autonMotor = this.lerInteiro("Digite a autonomia do motor (em km): ");
+            int capMotor = this.lerInteiro("Digite a capacidade do motor (em L): ");
+        }
+        if (tipo == 3) {
+            int autonMotor = this.lerInteiro("Digite a autonomia do motor (em km): ");
+            int capMotor = this.lerInteiro("Digite a capacidade do motor (em L): ");
+            int autonBateria = this.lerInteiro("Digite a autonomia da bateria (em km): ");
+            int capBateria = this.lerInteiro("Digite a capacidade da Bateria (em kwH): ");  
+        }
 
         if (s.localizarGerente(cpf) == null) { // Garantindo que o não CPF esteja duplicado.
             Veiculo c = new Veiculo(marca, modelo, anoFab, mesFab, anoMod, valor, tipo, autonMotor, capMotor, autonBateria, capBateria);
@@ -185,5 +202,79 @@ public class Entrada {
         }
     }
 
+    public void cadVenda (Sistema s) {
+        s.listarVend();
+        /* Vendedores cadastrados:
+        Maria da Silva - CPF: 345
+        Digite o CPF do vendedor: 345
+        Veiculos cadastrados:
+        1) BYD Song Pro 2025/2026 - Autonomia: 1100.0km (Híbrido)
+        Escolha um veículo pelo número: 1
+        Clientes cadastrados:
+        Hilario Seibel Junior - CPF: 123 - hsjunior@gmail.com
+        Wagner Kirmse - CPF: 234 - wagnerkc@gmail.com
+        Digite o CPF do cliente: 123
+        Digite o desconto (em R$): 5000
+        Digite o dia da venda: 5
+        Digite o mês da venda: 9
+        Digite o ano da venda: 2025
+        Digite o chassi do veículo: 1234 */
+        String cpfVendedor = this.lerLinha("Digite o CPF do vendedor: ");
+        s.listarVeiculos();
+        int numVeiculo = this.lerInteiro("Escolha um veículo pelo número: ");
+        
 
+        Cliente c = s.localizarCliente(cpfCliente);
+        Vendedor v = s.localizarVendedor(cpfVendedor);
+        Veiculo veic = s.localizarVeiculo(marca, modelo);
+
+        if (c == null) {
+            System.out.println("Erro: Cliente não encontrado. Venda não cadastrada.");
+            return;
+        }
+        if (v == null) {
+            System.out.println("Erro: Vendedor não encontrado. Venda não cadastrada.");
+            return;
+        }
+        if (veic == null) {
+            System.out.println("Erro: Veículo não encontrado. Venda não cadastrada.");
+            return;
+        }
+        // Veiculo veiculo, Cliente cliente, double desconto, Data d, String chassi
+        Venda venda = new Venda(c, v, veic, 0.0, new Data(dia, mes, ano), ""); // desconto 0.0 e chassi vazio
+        s.adicionar(venda);
+    }
+
+    /* *** RELATÓRIO DE VENDAS MENSAL DE 9/2025 ***
+Vendedor: Maria da Silva (Salário neste mês: RS3398.0)
+Veiculo: BYD Song Pro 2025/2026 - Autonomia: 1110.0km (Híbrido)
+Cliente: Hilario Seibel Junior - CPF: 123 - hsjunior@gmail.com
+Valor da venda: R$194000.0
+Data: 5/9/2025
+***************************************
+Total: R$194000.0 */
+    private void relatorioMensal (Sistema s) {
+        int mes = this.lerInteiro("Digite o mês desejado: ");
+        int ano = this.lerInteiro("Digite o ano desejado: ");
+
+        s.relatorio(mes, ano);
+    }
+
+    private void relatorioAnual (Sistema s) {
+        int ano = this.lerInteiro("Digite o ano desejado: ");
+
+        s.historicoAnual(ano);
+    }
+
+    private void relatorioVendedor (Sistema s) {
+        String cpf = this.lerLinha("Digite o CPF do vendedor: ");
+
+        Vendedor v = s.localizarVendedor(cpf);
+        if (v == null) {
+            System.out.println("Erro: Vendedor não encontrado.");
+            return;
+        }
+
+        s.historicoVendedor(v);
+    }
 }
