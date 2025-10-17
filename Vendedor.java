@@ -14,10 +14,14 @@ public class Vendedor extends Funcionario{
         vendidos.add(v);
     }
 
+    public ArrayList<Venda> getVendas() {
+        return vendidos;
+    }
+
     public double comissaoTotal(int mes, int ano) {
         double comissaoTotal = 0.0;
         for (Venda v : vendidos) {
-            if (v.d.getMes() == mes && v.d.getAno() == ano) {
+            if (v.getData().getMes() == mes && v.getData().getAno() == ano) {
                 comissaoTotal += v.valor() * (this.comissao / 100);
             }
         }
@@ -27,7 +31,7 @@ public class Vendedor extends Funcionario{
     public double comissaoTotal(int ano) {
         double comissaoTotal = 0.0;
         for (Venda v : vendidos) {
-            if (v.d.getAno() == ano) {
+            if (v.getData().getAno() == ano) {
                 comissaoTotal += v.valor() * (this.comissao / 100);
             }
         }

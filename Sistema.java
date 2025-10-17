@@ -1,4 +1,3 @@
-fdgdimport java.util.ArrayList;
 import java.util.ArrayList;
 
 public class Sistema {
@@ -13,6 +12,30 @@ public class Sistema {
         this.vendedores = new ArrayList<>();
         this.veiculos = new ArrayList<>();
     }
+
+    public void redirect(Sistema s, Entrada io, int op) {
+        switch(op) {
+                case 1: // cadCliente
+                    io.cadCliente(s);
+                    break;
+                case 2: // cadVendedor
+                    io.cadVendedor(s);
+                    break;
+                case 3: // cadGerente
+                    io.cadGerente(s);
+                    break;
+                case 4: // cadVeiculo
+                    io.cadVeiculo(s);
+                    break;
+                case 5: // cadVenda
+                    io.cadVenda(s);
+                    break;
+        }
+    }
+
+/**************************************************
+    * CLIENTES - CLIENTES - CLIENTES - CLIENTES *
+ ***************************************************/
 
     public ArrayList<Cliente> getClientes() {
         return clientes;
@@ -44,6 +67,10 @@ public class Sistema {
         return null;
     }
 
+/**************************************************
+    * GERENTES - GERENTES - GERENTES - GERENTES *
+ ***************************************************/
+
     public ArrayList<Gerente> getGerentes() {
         return gerentes;
     }
@@ -73,6 +100,10 @@ public class Sistema {
         }
         return null;
     }
+
+/**************************************************
+ * VENDEDORES - VENDEDORES - VENDEDORES - VENDEDORES *
+ ***************************************************/
 
     public ArrayList<Vendedor> getVendedores() {
         return vendedores;
@@ -104,6 +135,10 @@ public class Sistema {
         return null;
     }
     
+/**************************************************
+    * VEÍCULOS - VEÍCULOS - VEÍCULOS - VEÍCULOS *
+ ***************************************************/
+
     public ArrayList<Veiculo> getVeiculos() {
         return veiculos;
     }
@@ -125,6 +160,13 @@ public class Sistema {
         }
     }
 
+    public Veiculo identificarVeiculo(int indice) {
+        if (indice >= 0 && indice < this.veiculos.size()) {
+            return this.veiculos.get(indice);
+        }
+        return null;
+    }
+
     public Veiculo localizarVeiculo(String marca, String modelo) {
         for (Veiculo v : this.veiculos) {
             if (v.marca.equals(marca) && v.modelo.equals(modelo)) {
@@ -134,26 +176,37 @@ public class Sistema {
         return null;
     }
 
+/**************************************************
+    * VENDAS - VENDAS - VENDAS - VENDAS *
+ ***************************************************/
+
     public void atribuirVendaVendedor(Venda venda, Vendedor vendedor) {
         vendedor.addVenda(venda);
     }
-/* *** RELATÓRIO DE VENDAS MENSAL DE 9/2025 ***
-Vendedor: Maria da Silva (Salário neste mês: RS3398.0)
-Veiculo: BYD Song Pro 2025/2026 - Autonomia: 1110.0km (Híbrido)
-Cliente: Hilario Seibel Junior - CPF: 123 - hsjunior@gmail.com
-Valor da venda: R$194000.0
-Data: 5/9/2025
-***************************************
-Total: R$194000.0 */
-    public void relatorio (int mes, int ano) {
+
+    /*public void listarVendas() {
+        System.out.println("Vendas cadastradas:");
+
+        for (Vendedor v : this.vendedores) {
+            for (Venda venda : v.getVendas()) {
+                System.out.println(venda);
+            }
+        }
+    }*/
+            
+/**************************************************
+* HISTÓRICOS - HISTÓRICOS - HISTÓRICOS - HISTÓRICOS *
+ ***************************************************/
+
+    public void historicoMensal (int mes, int ano) {
         System.out.println("*** RELATÓRIO DE VENDAS MENSAL DE " + mes + "/" + ano + "***");
         double totalVendas = 0.0;
         for (Vendedor v : this.vendedores) {
             double comissaoVendedor = v.comissaoTotal(mes, ano);
             if (comissaoVendedor > 0) {
                 System.out.println("Vendedor: " + v.getNome() + " (Salário neste mês: R$" + v.getSalario(mes, ano) + ")");
-                for (Venda venda : v.vendidos) {
-                    if (venda.d.getMes() == mes && venda.d.getAno() == ano) {
+                for (Venda venda : v.getVendas()) {
+                    if (venda.getData().getMes() == mes && venda.getData().getAno() == ano) {
                         System.out.println(venda);
                         System.out.println("***************************************");
                         totalVendas += venda.valor();
@@ -164,15 +217,15 @@ Total: R$194000.0 */
         System.out.println("Total: R$" + String.format("%.2f", totalVendas));
     }
     
-    public void relatorio (int ano) {
+    public void historicoAnual (int ano) {
         System.out.println("*** RELATÓRIO DE VENDAS ANUAL DE " + ano + " ***");
         double totalVendas = 0.0;
         for (Vendedor v : this.vendedores) {
             double comissaoVendedor = v.comissaoTotal(ano);
             if (comissaoVendedor > 0) {
                 System.out.println("Vendedor: " + v.getNome() + " (Salário neste ano: R$" + (v.salario * 12 + comissaoVendedor) + ")");
-                for (Venda venda : v.vendidos) {
-                    if (venda.d.getAno() == ano) {
+                for (Venda venda : v.getVendas()) {
+                    if (venda.getData().getAno() == ano) {
                         System.out.println(venda);
                         System.out.println("***************************************");
                         totalVendas += venda.valor();
@@ -183,11 +236,11 @@ Total: R$194000.0 */
         System.out.println("Total: R$" + String.format("%.2f", totalVendas));
     }
 
-    public void relatorio (Vendedor vendedor) {
+    public void historicoVendedor (Vendedor vendedor) {
         System.out.println("*** RELATÓRIO DE VENDAS DO VENDEDOR ***");
         System.out.println("Vendas do vendedor " + vendedor.getNome() + " :");
         double totalVendas = 0.0;
-        for (Venda venda : vendedor.vendidos) {
+        for (Venda venda : vendedor.getVendas()) {
             System.out.println(venda);
             System.out.println("***************************************");
             totalVendas += venda.valor();

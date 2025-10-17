@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 /**
  * Classe com as rotinas de entrada e saída do projeto
- * @author Hilario Seibel Junior, Larissa Santos e Lucas Silva
+ * @author Hilario Seibel Junior, Larissa Santos e Lucas Silverio Gums
  */
 public class Entrada {
     public Scanner input;
@@ -101,6 +101,11 @@ public class Entrada {
      * Lê os dados de um novo Cliente e cadastra-o no sistema.
      * @param s: Um objeto da classe Sistema
      */
+
+/**************************************************
+* CADASTROS - CADASTROS - CADASTROS - CADASTROS *
+***************************************************/
+
     public void cadCliente(Sistema s) {
         s.listarClientes();
 
@@ -150,9 +155,9 @@ public class Entrada {
         int mes = this.lerInteiro("Digite o mês do nascimento do gerente: ");
         int ano = this.lerInteiro("Digite o ano do nascimento do gerente: ");
         int salario = this.lerInteiro("Digite o salário mensal fixo do gerente: ");
-        int senha = this.lerInteiro("Digite a senha do gerente: ");
+        String senha = this.lerLinha("Digite a senha do gerente: ");
 
-        if (s.localizarGerente(cpf) == null) { // Garantindo que o não CPF esteja duplicado.
+        if (s.localizarGerente(cpf) == null) { // String nome, String cpf, int dia, int mes, int ano, int salario, String senha
             Gerente c = new Gerente(nome, cpf, dia, mes, ano, salario, senha); // CHECAAAARRRR
             s.adicionar(c); // CHECARRRRR
         }
@@ -166,10 +171,10 @@ public class Entrada {
 
         String marca = this.lerLinha("Digite a marca do veículo: ");
         String modelo = this.lerLinha("Digite o modelo do veículo: ");
-        int anoFab = this.lerLinha("Digite o ano de fabricação do veículo: ");
-        int mesFab = this.lerLinha("Digite o mês de fabricação do veículo: ");
+        int anoFab = this.lerInteiro("Digite o ano de fabricação do veículo: ");
+        int mesFab = this.lerInteiro("Digite o mês de fabricação do veículo: ");
         int anoMod = this.lerInteiro("Digite o ano do modelo do veículo: ");
-        int valor = this.lerInteiro("Digite o valor do veículo: ")
+        int valor = this.lerInteiro("Digite o valor do veículo: ");
         int tipo = this.lerInteiro("Escolha o tipo do veículo: \n1) Elétrico \n2) Combustão \n3) Híbrido:");
         while (!(tipo == 0 || tipo == 1 || tipo == 2 || tipo == 3)) {
             System.out.println("Erro: Tipo inválido. Tente novamente (para sair, digite 0).");
@@ -180,53 +185,41 @@ public class Entrada {
         }
         if (tipo == 1) {
             int autonBateria = this.lerInteiro("Digite a autonomia da bateria (em km): ");
-            int capBateria = this.lerInteiro("Digite a capacidade da Bateria (em kwH): ");  
+            int capBateria = this.lerInteiro("Digite a capacidade da Bateria (em kwH): ");
+            Eletrico c = new Eletrico(marca, modelo, anoFab, mesFab, anoMod, valor, autonBateria, capBateria); // CHECAAAARRRR
+            s.adicionar(c);
         }
         if (tipo == 2) {
             int autonMotor = this.lerInteiro("Digite a autonomia do motor (em km): ");
             int capMotor = this.lerInteiro("Digite a capacidade do motor (em L): ");
+            Combustao c = new Combustao(marca, modelo, anoFab, mesFab, anoMod, valor, autonMotor, capMotor); // CHECAAAARRRR
+            s.adicionar(c);
         }
         if (tipo == 3) {
             int autonMotor = this.lerInteiro("Digite a autonomia do motor (em km): ");
             int capMotor = this.lerInteiro("Digite a capacidade do motor (em L): ");
             int autonBateria = this.lerInteiro("Digite a autonomia da bateria (em km): ");
-            int capBateria = this.lerInteiro("Digite a capacidade da Bateria (em kwH): ");  
-        }
-
-        if (s.localizarGerente(cpf) == null) { // Garantindo que o não CPF esteja duplicado.
-            Veiculo c = new Veiculo(marca, modelo, anoFab, mesFab, anoMod, valor, tipo, autonMotor, capMotor, autonBateria, capBateria);
-            s.adicionar(c); // CHECARRRRR
-        }
-        else {
-            System.out.println("Erro: CPF duplicado. Vendedor não adicionado.");
+            int capBateria = this.lerInteiro("Digite a capacidade da Bateria (em kwH): ");
+            Hibrido c = new Hibrido(marca, modelo, anoFab, mesFab, anoMod, valor, autonMotor, capMotor, autonBateria, capBateria); // CHECAAAARRRR
+            s.adicionar(c);
         }
     }
 
     public void cadVenda (Sistema s) {
-        s.listarVend();
-        /* Vendedores cadastrados:
-        Maria da Silva - CPF: 345
-        Digite o CPF do vendedor: 345
-        Veiculos cadastrados:
-        1) BYD Song Pro 2025/2026 - Autonomia: 1100.0km (Híbrido)
-        Escolha um veículo pelo número: 1
-        Clientes cadastrados:
-        Hilario Seibel Junior - CPF: 123 - hsjunior@gmail.com
-        Wagner Kirmse - CPF: 234 - wagnerkc@gmail.com
-        Digite o CPF do cliente: 123
-        Digite o desconto (em R$): 5000
-        Digite o dia da venda: 5
-        Digite o mês da venda: 9
-        Digite o ano da venda: 2025
-        Digite o chassi do veículo: 1234 */
+        s.listarVendedores();
         String cpfVendedor = this.lerLinha("Digite o CPF do vendedor: ");
+        
         s.listarVeiculos();
         int numVeiculo = this.lerInteiro("Escolha um veículo pelo número: ");
-        
+        String marca = s.identificarVeiculo(numVeiculo).getMarca();
+        String modelo = s.identificarVeiculo(numVeiculo).getModelo();
 
-        Cliente c = s.localizarCliente(cpfCliente);
+        s.listarClientes();
+        String cpfCliente = this.lerLinha("Digite o CPF do cliente: ");
+
         Vendedor v = s.localizarVendedor(cpfVendedor);
         Veiculo veic = s.localizarVeiculo(marca, modelo);
+        Cliente c = s.localizarCliente(cpfCliente);
 
         if (c == null) {
             System.out.println("Erro: Cliente não encontrado. Venda não cadastrada.");
@@ -241,32 +234,59 @@ public class Entrada {
             return;
         }
         // Veiculo veiculo, Cliente cliente, double desconto, Data d, String chassi
-        Venda venda = new Venda(c, v, veic, 0.0, new Data(dia, mes, ano), ""); // desconto 0.0 e chassi vazio
-        s.adicionar(venda);
+        Venda venda = new Venda(veic, c, this.lerDouble("Digite o desconto (em R$): "), new Data(
+                this.lerInteiro("Digite o dia da venda: "),
+                this.lerInteiro("Digite o mês da venda: "),
+                this.lerInteiro("Digite o ano da venda: ")),
+            this.lerLinha("Digite o chassi do veículo: ")
+        ); // desconto 0.0 e chassi vazio
+        s.atribuirVendaVendedor(venda, v);
+    }
+    
+/**************************************************
+ * RELATÓRIOS - RELATÓRIOS - RELATÓRIOS - RELATÓRIOS
+ ***************************************************/
+
+    public void relatorio (Sistema s) {
+        System.out.println("Escolha o tipo de relatório:\n" +
+                           "1) Relatório Mensal\n" +
+                           "2) Relatório Anual\n" +
+                           "3) Relatório de Vendedor\n");
+        int tipo = this.lerInteiro("Digite a opção desejada: ");
+
+        while (!(tipo == 1 || tipo == 2 || tipo == 3)) {
+            System.out.println("Erro: Tipo inválido. Tente novamente.");
+            tipo = this.lerInteiro("Escolha o tipo de relatório:\n" +
+                                   "1) Relatório Mensal\n" +
+                                   "2) Relatório Anual\n" +
+                                   "3) Relatório de Vendedor\n");
+        }
+
+        if (tipo == 1) {
+            relatorioMensal(s);
+        }
+        else if (tipo == 2) {
+            relatorioAnual(s);
+        }
+        else {
+            relatorioVendedor(s);
+        }
     }
 
-    /* *** RELATÓRIO DE VENDAS MENSAL DE 9/2025 ***
-Vendedor: Maria da Silva (Salário neste mês: RS3398.0)
-Veiculo: BYD Song Pro 2025/2026 - Autonomia: 1110.0km (Híbrido)
-Cliente: Hilario Seibel Junior - CPF: 123 - hsjunior@gmail.com
-Valor da venda: R$194000.0
-Data: 5/9/2025
-***************************************
-Total: R$194000.0 */
-    private void relatorioMensal (Sistema s) {
+    public void relatorioMensal (Sistema s) {
         int mes = this.lerInteiro("Digite o mês desejado: ");
         int ano = this.lerInteiro("Digite o ano desejado: ");
 
-        s.relatorio(mes, ano);
+        s.historicoMensal(mes, ano);
     }
 
-    private void relatorioAnual (Sistema s) {
+    public void relatorioAnual (Sistema s) {
         int ano = this.lerInteiro("Digite o ano desejado: ");
 
         s.historicoAnual(ano);
     }
 
-    private void relatorioVendedor (Sistema s) {
+    public void relatorioVendedor (Sistema s) {
         String cpf = this.lerLinha("Digite o CPF do vendedor: ");
 
         Vendedor v = s.localizarVendedor(cpf);
@@ -276,5 +296,10 @@ Total: R$194000.0 */
         }
 
         s.historicoVendedor(v);
+    }
+
+    public void opInvalida() {
+        System.out.println("Opção inválida. Tente novamente.");
+        menu();
     }
 }

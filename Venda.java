@@ -21,6 +21,10 @@ public class Venda {
         this.chassi = "";
     }
 
+    public Data getData() {
+        return this.d;
+    }
+
     public double valor() {
         return this.veiculo.valor - this.desconto;
     }
